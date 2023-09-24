@@ -30,17 +30,18 @@ class CounterScreen extends StatefulWidget{
   }
 
 }
-class CounterState extends State<CounterScreen>{
-  int counter =1;
+class CounterState extends State<CounterScreen> {
+  int counter = 1;
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
             "Counter App",
             style: TextStyle(
               fontWeight: FontWeight.w300,
-              fontSize: 35,
+              fontSize: 30,
             ),
           ),
           //titleSpacing: 90,
@@ -54,31 +55,61 @@ class CounterState extends State<CounterScreen>{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(counter.toString()),
-              ElevatedButton(onPressed: (){
-                if(counter<5){
-                  counter = counter+1;
-                  print(counter);
-                  setState(() {
+              Text(counter.toString(),style: TextStyle(fontSize: 40,fontWeight: FontWeight.normal),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(onPressed: () {
+                    if (counter < 5) {
+                      counter = counter + 1;
+                      print(counter);
+                      setState(() {});
+                      if (counter >= 5) {
+                        _showDialog();
+                      };
+                    }
+                  }, child: Text("+",
+                    style: TextStyle(fontSize: 30),),),
+                  SizedBox(
+                    width: 10
+                  ),
+                  ElevatedButton(onPressed: () {
+                    if (counter > 0) {
+                      counter = counter - 1;
+                      print(counter);
+                      setState(() {
 
-                  });}
-              }, child: Text("+",
-              style: TextStyle(fontSize: 20),),),
-              ElevatedButton(onPressed: (){
-                if(counter>0){
-                  counter = counter-1;
-                  print(counter);
-                  setState(() {
-
-                  });}
-              }, child: Text("-",
-                style: TextStyle(fontSize: 20),
-              ),)
+                      });
+                    }
+                  }, child: Text("-",
+                    style: TextStyle(fontSize: 30),
+                  ),),
+                ],
+              )
 
 
             ],
           ),
         ));
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Button pressed $counter times"),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
 }
